@@ -5,6 +5,7 @@ import AdminPage from "../AdminComponent/Admin";
 import Registration from "../Registration/Registration";
 import Authorization from "../Authorization/Authorization";
 import 'bootstrap/dist/css/bootstrap.css';
+import NotFound from "../404/NotFound";
 
 function Header() {
     const signOut = () => {
@@ -59,6 +60,7 @@ function Header() {
             </nav>
                 <Routes>
                     <Route path="/files" element={<File/>}/>
+                    <Route path="/notfound" element={<NotFound/>}/>
                     <Route path="/admin" element={<AdminPage/>}/>
                     <Route path="/signup" element={<Registration/>} />
                     <Route path="/signin" element={<Authorization/>} />

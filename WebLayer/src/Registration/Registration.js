@@ -2,7 +2,6 @@ import React, { useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {variables} from "../Variables/Variables";
 
-
 function Registration() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -101,7 +100,7 @@ function Registration() {
                         <Form.Group className="mb-3">
                             <Form.Label>Nick Name</Form.Label>
                             <Form.Control type="text"
-                                          placeholder="Enter First Name"
+                                          placeholder="Enter Nick Name"
                                           value={nickName}
                                           onChange={(e) =>
                                               setNickName(e.target.value)}

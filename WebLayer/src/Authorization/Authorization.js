@@ -5,7 +5,7 @@ import {variables} from "../Variables/Variables";
 function Authorization() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [authResponse,setAuthResponse] = useState([]);
+    //const [authResponse,setAuthResponse] = useState([]);
     const [users,setUsers] = useState([]);
     const checkPassword = (nickname,password) =>
     {
@@ -41,7 +41,7 @@ function Authorization() {
             .then((result) => {
                 if(result.token){
                     console.log(result.token);
-                    setAuthResponse(result.token);
+                    //setAuthResponse(result.token);
                     localStorage.setItem("user", JSON.stringify(result.token));
                 }
             }).catch((error) => {
@@ -81,12 +81,14 @@ function Authorization() {
                                               setPassword(e.target.value)}
                             />
                         </Form.Group>
-                        <Button variant="primary"
-                                onClick={authorizeUserClicked}>
-                            Submit
-                        </Button>
-                        <Button style={{paddingLeft: '3%'}} variant="link" href='/signup'>I don't have an account  </Button>
-                        <Button style={{paddingLeft: '3%'}} variant="link" href='/files'>   Continue as anon account</Button>
+                        <div style={{width: '110%'}}>
+                            <Button variant="primary"
+                                    onClick={authorizeUserClicked}>
+                                Submit
+                            </Button>
+                            <Button style={{paddingLeft: '3%'}} variant="link" href='/signup'>I don't have an account  </Button>
+                            <Button style={{paddingLeft: '1%'}} variant="link" href='/files'>Continue</Button>
+                        </div>
                     </Form>
                 </div>
 

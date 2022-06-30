@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 import EditUser from "./EditUser";
 import {variables} from "../Variables/Variables";
-
+import '../FileComponent/File.css';
 const AdminPage = (props) => {
 
 
@@ -61,8 +61,8 @@ const AdminPage = (props) => {
                 }
             ]),
             headers: {
-                'Authentication': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
-                'Content-Type': 'application/json'
+                'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
             },
         })
             .then((response) => {
@@ -82,7 +82,7 @@ const AdminPage = (props) => {
             fetch(variables.API_URL + 'Authentication/' + user.userId, {
                 method: 'DELETE',
                 headers: {
-                    'Authentication': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
+                    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
                     'Content-Type': 'application/json'
                 }
             })
@@ -96,28 +96,27 @@ const AdminPage = (props) => {
         }
     }
     const makeAnAdmin = (user) => {
-        fetch(variables.API_URL + 'Authentication/Administrator' , {
-            method: 'Post',
+        fetch(variables.API_URL + 'Authentication/addrole/Administrator', {
+            method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: user.email
+            body: JSON.stringify(user.email)
         })
             .then(res => res.json())
             .then((result) => {
                 refreshPage();
-            }, (error) => {
-                alert('Failed');
             })
     }
     console.log(users);
-
-    if (users.length !== 0)
+    if(!localStorage.getItem('roles')?.includes("Administrator")){
+        window.location.href = "http://localhost:3000/notfound";
+    }
+    else if (users.length !== 0)
         return (
             <div>
-                <table className="table table-striped">
+                <table className="content-table">
                     <thead>
                     <tr>
                         <th>
@@ -154,18 +153,21 @@ const AdminPage = (props) => {
                             <td>{user.lastName}</td>
                             <td>{user.roles?.join(",")}</td>
                             <td>
+                                {!user.roles?.includes("Administrator") &&
                                 <button type="button"
                                         className="btn btn-light mr-1"
-                                        onClick={editUser.bind(this, user)}>
+                                        onClick={editUser.bind(this, user)}>Edit user
                                 </button>
+                                }
+                                {!user.roles?.includes("Administrator") &&
                                 <button type="button"
                                         className="btn btn-light mr-1"
-                                        onClick={deleteUser.bind(this, user)}>
-                                </button>
+                                        onClick={deleteUser.bind(this, user)}>Delete user
+                                </button>}
                                 {!user.roles?.includes("Administrator") &&
                                     <button type="button"
                                             className="btn btn-light mr-1"
-                                            onClick={makeAnAdmin.bind(this, user)}>
+                                            onClick={makeAnAdmin.bind(this, user)}>Make an admin
                                     </button>
                                 }
                             </td>

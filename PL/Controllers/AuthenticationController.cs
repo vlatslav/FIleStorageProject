@@ -139,7 +139,7 @@ namespace PL.Controllers
 
         [HttpPost("addrole/{role}"), Authorize(Roles = "Administrator")]
         //[HttpPost("addrole/{role}")]
-        public async Task<ActionResult> AddRoleToUser([FromBody]string userEmail, string role)
+        public async Task<ActionResult> AddRoleToUser([FromRoute]string role, [FromBody]string userEmail)
         {
 
             if (!ModelState.IsValid)
@@ -159,13 +159,13 @@ namespace PL.Controllers
             await _userManager.UpdateAsync(_mapper.Map<User>(user));
             return Ok();
         }
-        [HttpPatch, Authorize(Roles = "User, Administrator")]
+        [HttpPatch("{id}"), Authorize(Roles = "User, Administrator")]
         //[HttpPatch("{id}")]
-        public async Task<ActionResult> PatchFile([FromRoute] string id, [FromBody] JsonPatchDocument<User> filemodel)
+        public async Task<ActionResult> PatchUser([FromRoute] string id, [FromBody] JsonPatchDocument<User> model)
         {
             try
             {
-                await _userService.PatchValues(id, filemodel);
+                await _userService.PatchValues(id, model);
                 return Ok();
             }
             catch (Exception e)

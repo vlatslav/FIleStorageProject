@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {variables} from "../Variables/Variables";
 import AddFile from "../AddFile/AddFile";
 import UpdateFile from "../EditFileComponent/UpdateFile";
+import './File.css';
 
 function File() {
     const [files,setFiles] = useState();
@@ -84,16 +85,15 @@ function File() {
         }).catch(err => console.error(err));
     }
     console.log(category);
-    if (files?.length !== 0) {
         return (
             <>
                 {localStorage.getItem('UserId') !== null &&
-                <button variant="primary" className="btn btn-primary m-2 float-end"
+                <button variant="primary" className="btn btn-primary m-2"
                         onClick={handleShow}>
                     AddFile
                 </button>}
 
-                <table>
+                <table className="content-table">
                     <thead>
                     <tr>
                         <th>
@@ -116,21 +116,21 @@ function File() {
                         <tr key={file.fileId}>
                             <td>{files?.indexOf(file) + 1}</td>
                             <td>{category?.find(ctg => ctg.categoryId === file.categoryId).categoryName}</td>
-                            <td>{file.title}</td>
+                            <td><h6>{file.title}</h6></td>
                             <td>{file.description}</td>
                             <td>
-                                <button type="button" onClick={() => downloadfile2(file.fileId)}>Download</button>
+                                <button className="btn btn-light mr-1" type="button" onClick={() => downloadfile2(file.fileId)}>Download</button>
                             </td>
                             {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
                                 || localStorage.getItem('roles')?.includes("Administrator") &&
                                 <td>
-                                    <button type="button" onClick={() => deleteBook(file.fileId)}>Delete</button>
+                                    <button className="btn btn-light mr-1" type="button" onClick={() => deleteBook(file.fileId)}>Delete</button>
                                 </td>
                             }
                             {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
                                 || localStorage.getItem('roles')?.includes("Administrator") &&
                                 <td>
-                                    <button type="button" onClick={editBook.bind(this, file)}>Update</button>
+                                    <button className="btn btn-light mr-1" type="button" onClick={editBook.bind(this, file)}>Update</button>
                                 </td>
                             }
                             <td><a ref={linkRef}/></td>
@@ -155,13 +155,7 @@ function File() {
                 />
             </>
         );
-    }
-    else{
-        return (<button className="btn btn-primary" disabled>
-            <span className="spinner-border spinner-border-sm"></span>
-            Loading..
-        </button>)
-    }
+
 }
 
 export default File;

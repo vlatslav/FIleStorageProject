@@ -124,7 +124,7 @@ namespace PL.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}"),  Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult> PatchFile([FromRoute]int id, [FromBody] JsonPatchDocument<Files> filemodel)
         {
             try

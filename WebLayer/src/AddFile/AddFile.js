@@ -2,6 +2,7 @@ import GetCategoryId from "./GetCategoryId";
 import {variables} from "../Variables/Variables";
 import {Button, Dropdown, Modal} from "react-bootstrap";
 import React, {useState} from "react";
+import './AddFile.css';
 
 function AddFile(props) {
 
@@ -13,11 +14,19 @@ function AddFile(props) {
         setSelectedFile(event.target.files[0]);
     };
     const closeWindow = () => {
-        props.handleClose();
-        setTitleValue(null);
-        setSelectedFile(null);
-        setDescValue(null);
-        setcategoryId("SelectCategory");
+
+        if(titleValue === undefined && descValue === undefined && selectedFile === undefined) {
+            props.handleClose();
+        }
+        else if(titleValue === undefined || descValue === undefined)
+            alert("Please enter title and description for file")
+        else {
+            props.handleClose();
+            setTitleValue(null);
+            setSelectedFile(null);
+            setDescValue(null);
+            setcategoryId("SelectCategory");
+        }
     }
     const handleSubmission = () => {
         if(categoryId !== "SelectCategory" && selectedFile !== null) {
@@ -64,7 +73,7 @@ function AddFile(props) {
                     }
                 ]),
                 headers: {
-                    'Authentication': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
+                    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')),
                     'Content-Type': 'application/json'
                 },
             })
@@ -84,16 +93,17 @@ function AddFile(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <Modal show={props.show} onHide={closeWindow}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add File</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div>
-                        <h5>Select FileCategory</h5>
+                    <div style={{width: '100%', height: '100%'}}>
+                        <h6 style={{paddingBottom: '1%'}}>Select FileCategory</h6>
 
                         <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                                File Category
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
@@ -135,16 +145,17 @@ function AddFile(props) {
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <input type="file" name="file" onChange={changeHandler} />
-                        <button variant="primary" onClick={handleSubmission}>
+                        <h6 style={{paddingTop: '2%'}}>Select file from your computer</h6>
+                        <input style={{paddingTop: '1%', paddingBottom: '2%'}} type="file" name="file" onChange={changeHandler} />
+                        <Button variant="primary" onClick={handleSubmission}>
                             UploadFile
-                        </button>
-                        <h5>Enter FileName</h5>
+                        </Button>
+                        <h6>Enter FileName</h6>
                         <input type="text" className="form-control"
                                onChange={(e) =>
                                    setTitleValue(e.target.value)}
                         />
-                        <h5>Enter File description</h5>
+                        <h6>Enter File description</h6>
                         <input type="text" className="form-control"
                                onChange={(e) =>
                                    setDescValue(e.target.value)}
@@ -152,7 +163,7 @@ function AddFile(props) {
 
                     </div>
                 </Modal.Body>
-                <div>
+                <div style={{paddingLeft: '3%', paddingBottom: '2%'}}>
                     <Button variant="secondary" onClick={closeWindow}>
                         Close
                     </Button>
