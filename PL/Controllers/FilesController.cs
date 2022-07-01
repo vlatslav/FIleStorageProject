@@ -73,7 +73,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "User, Administrator")]
-        //[HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _fileService.DeleteAsync(id);
@@ -81,7 +80,6 @@ namespace PL.Controllers
         }
 
         [HttpPost, Authorize(Roles = "User, Administrator")]
-        //[HttpPost]
         [Route("uploadfile/{categoryId}")]
         public async Task<ActionResult<string>> UploadFile([FromRoute] int categoryId)
         {
@@ -91,32 +89,8 @@ namespace PL.Controllers
                 string name = HttpContext.User.Identity.Name;
                 var user = _userManager.Users.Where(x => x.UserName == name).FirstOrDefault();
                 var files = HttpContext.Request.Form.Files;
-                if (files != null && files.Count > 0)
-                {
-                    foreach (var file in files)
-                    {
-                        FileInfo fl = new FileInfo(file.FileName);
-                        var newfilename = "File_" + DateTime.Now.TimeOfDay.Milliseconds + fl.Extension;
-                        var path = Path.Combine("", _hostingEnvironment.ContentRootPath + "\\Files\\" + newfilename);
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            file.CopyTo(stream);
-                        }
-                        var f = new FileModel()
-                        {
-                            Date = DateTime.Now,
-                            FilePath = path,
-                            ContentType = file.ContentType,
-                            FileName = newfilename,
-                            UserId = user.Id,
-                            CategoryId = categoryId
-                        };
-                        await _fileService.AddAsync(f);
-                    }
-                    return Ok();
-                }
-
-                return NotFound();
+                await _fileService.UploadFile(categoryId, user,files);
+                return Ok();
             }
             catch (Exception e)
             {

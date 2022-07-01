@@ -62,7 +62,6 @@ namespace PL.Controllers
             return Ok(new { Token = await _authManager.CreateToken() });
         }
 
-        //[HttpGet, Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetAllUsers()
         {
@@ -91,7 +90,6 @@ namespace PL.Controllers
             }
         }
         [HttpGet("{id}"), Authorize(Roles = "Administrator")]
-        //[HttpGet("{id}")]
         public async Task<ActionResult<UserModel>> GetUserById(string id)
         {
             try
@@ -106,7 +104,6 @@ namespace PL.Controllers
             }
         }
         [HttpGet("files/{id}"), Authorize(Roles = "Administrator")]
-        //[HttpGet("files/{id}")]
         public async Task<ActionResult<IEnumerable<FileModel>>> GetAllFiles(string id)
         {
             try
@@ -121,13 +118,11 @@ namespace PL.Controllers
         }
 
         [HttpPost("signout"), Authorize]
-        //[HttpPost("signout")]
         public async Task<ActionResult> SignOut()
         {
             try
             {
                 await _signInManager.SignOutAsync();
-                // var chechAuth = _httpContext.User.Identity.IsAuthenticated;
                 return Ok();
             }
             catch (Exception e)
@@ -138,7 +133,6 @@ namespace PL.Controllers
 
 
         [HttpPost("addrole/{role}"), Authorize(Roles = "Administrator")]
-        //[HttpPost("addrole/{role}")]
         public async Task<ActionResult> AddRoleToUser([FromRoute]string role, [FromBody]string userEmail)
         {
 
@@ -151,7 +145,6 @@ namespace PL.Controllers
         }
 
         [HttpPut, Authorize(Roles = "User, Administrator")]
-        //[HttpPut]
         public async Task<ActionResult> Update([FromBody] UserModel user)
         {
             if (!ModelState.IsValid)
@@ -160,7 +153,6 @@ namespace PL.Controllers
             return Ok();
         }
         [HttpPatch("{id}"), Authorize(Roles = "User, Administrator")]
-        //[HttpPatch("{id}")]
         public async Task<ActionResult> PatchUser([FromRoute] string id, [FromBody] JsonPatchDocument<User> model)
         {
             try

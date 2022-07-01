@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using BAL.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Models;
 using BusinessLogicLayer.Validation;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -21,11 +24,13 @@ namespace BusinessLogicLayer.Services
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        public FileService(IUnitOfWork unitOf,IMapper mapper, UserManager<User> userManager)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public FileService(IUnitOfWork unitOf,IMapper mapper, UserManager<User> userManager, IHostingEnvironment hosting )
         {
             unitOfWork = unitOf;
             _mapper = mapper;
             _userManager = userManager;
+            _hostingEnvironment = hosting;
         }
 
         public async Task AddAsync(FileModel model)
@@ -67,7 +72,35 @@ namespace BusinessLogicLayer.Services
         {
             return _mapper.Map<Files, FileModel>(await unitOfWork.FileRepository.GetById(id));
         }
+        public async Task UploadFile(int categoryId, User user, IFormFileCollection files)
+        {
+            if (files != null && files.Count > 0 || user is null)
+            {
+                var file = files.First();
+                FileInfo fl = new FileInfo(file.FileName);
+                var newfilename = "File_" + DateTime.Now.TimeOfDay.Milliseconds + fl.Extension;
+                var path = Path.Combine("", _hostingEnvironment.ContentRootPath + "\\Files\\" + newfilename);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
 
+                var f = new FileModel()
+                {
+                    Date = DateTime.Now,
+                    FilePath = path,
+                    ContentType = file.ContentType,
+                    FileName = newfilename,
+                    UserId = user.Id,
+                    CategoryId = categoryId
+                };
+                await AddAsync(f);
+            }
+            else
+            {
+                throw new FileExcpetion("Arguments can't be null");
+            }
+        }
         public async Task UpdateAsync(FileModel model)
         {
 

@@ -45,7 +45,8 @@ function Authorization() {
                     localStorage.setItem("user", JSON.stringify(result.token));
                 }
             }).catch((error) => {
-            console.log(error.response)
+            console.log(error.response);
+            alert("Incorrect password or username");
         })
     }
     const authorizeUserClicked = () => {
