@@ -138,9 +138,6 @@ const AdminPage = (props) => {
                         <th>
                             Role
                         </th>
-                        <th>
-                            Options
-                        </th>
                     </tr>
 
                     </thead>
@@ -155,18 +152,18 @@ const AdminPage = (props) => {
                             <td>
                                 {!user.roles?.includes("Administrator") &&
                                 <button type="button"
-                                        className="btn btn-light mr-1"
+                                        className="btn btn-outline-info m-lg-1"
                                         onClick={editUser.bind(this, user)}>Edit user
                                 </button>
                                 }
                                 {!user.roles?.includes("Administrator") &&
                                 <button type="button"
-                                        className="btn btn-light mr-1"
+                                        className="btn btn-outline-danger m-lg-1"
                                         onClick={deleteUser.bind(this, user)}>Delete user
                                 </button>}
                                 {!user.roles?.includes("Administrator") &&
                                     <button type="button"
-                                            className="btn btn-light mr-1"
+                                            className="btn btn-outline-success m-lg-1"
                                             onClick={makeAnAdmin.bind(this, user)}>Make an admin
                                     </button>
                                 }

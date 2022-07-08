@@ -63,7 +63,7 @@ function Authorization() {
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicName">
                             <Form.Label style={{paddingRight: '3%'}} >User name</Form.Label>
-                            <Form.Control type="name"
+                            <Form.Control type="text"
                                           placeholder="Enter user name"
                                           value={userName}
                                           onChange={(e) =>

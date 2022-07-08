@@ -118,22 +118,19 @@ function File() {
                             <td>{category?.find(ctg => ctg.categoryId === file.categoryId).categoryName}</td>
                             <td><h6>{file.title}</h6></td>
                             <td>{file.description}</td>
-                            <td>
-                                <button className="btn btn-light mr-1" type="button" onClick={() => downloadfile2(file.fileId)}>Download</button>
-                            </td>
-                            {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
-                                || localStorage.getItem('roles')?.includes("Administrator") &&
-                                <td>
-                                    <button className="btn btn-light mr-1" type="button" onClick={() => deleteBook(file.fileId)}>Delete</button>
-                                </td>
-                            }
-                            {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
-                                || localStorage.getItem('roles')?.includes("Administrator") &&
-                                <td>
-                                    <button className="btn btn-light mr-1" type="button" onClick={editBook.bind(this, file)}>Update</button>
-                                </td>
-                            }
                             <td><a ref={linkRef}/></td>
+                            <td>
+                                <button className="btn btn-outline-success m-lg-1" type="button" onClick={() => downloadfile2(file.fileId)}>Download</button>
+
+                            {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
+                                || localStorage.getItem('roles')?.includes("Administrator") &&
+                                    <button className="btn btn-outline-danger m-lg-1" type="button" onClick={() => deleteBook(file.fileId)}>Delete</button>
+                            }
+                            {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
+                                || localStorage.getItem('roles')?.includes("Administrator") &&
+                                    <button className="btn btn-outline-info m-lg-1" type="button" onClick={editBook.bind(this, file)}>Update</button>
+                            }
+                            </td>
                         </tr>
                     )}
                     </tbody>

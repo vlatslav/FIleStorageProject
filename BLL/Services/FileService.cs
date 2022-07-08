@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace BusinessLogicLayer.Services
 {
@@ -114,6 +115,14 @@ namespace BusinessLogicLayer.Services
                 throw new FileExcpetion("FileName can't be null");
             unitOfWork.FileRepository.Update(_mapper.Map<FileModel, Files>(model));
             await unitOfWork.SaveChangesAsync();
+        }
+
+        public void DownloadFile(FileModel model)
+        {
+            if (model is null)
+                throw new FileExcpetion("File can't be null");
+            if (!File.Exists(model.FilePath))
+                throw new FileExcpetion("File path doesn't exist");
         }
     }
 

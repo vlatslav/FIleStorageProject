@@ -125,19 +125,21 @@ namespace PL.Controllers
         [Route("downloadfile/{id}")]
         public async Task<IActionResult> Download(int id) //
         {
-            var file = await _fileService.GetByIdAsync(id);
-            var provider = new FileExtensionContentTypeProvider();
-            if (file is null)
-                return NotFound();
-            string contentType;
-            if (!provider.TryGetContentType(file.FilePath, out contentType))
-                contentType = "application/octet-stream";
-            byte[] fileBytes;
-            if (System.IO.File.Exists(file.FilePath))
-                fileBytes = System.IO.File.ReadAllBytes(file.FilePath);
-            else
-                return NotFound();
-            return File(fileBytes, contentType,file.FileName);
+            try
+            {
+                var file = await _fileService.GetByIdAsync(id);
+                var provider = new FileExtensionContentTypeProvider();
+                string contentType;
+                if (!provider.TryGetContentType(file.FilePath, out contentType))
+                    contentType = "application/octet-stream";
+                _fileService.DownloadFile(file);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(file.FilePath);
+                return File(fileBytes, contentType, file.FileName);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }
