@@ -67,7 +67,7 @@ function UpdateFile(props) {
 
                 <Modal show={props.showEdit} onHide={props.handleCloseEdit}>
                     <Modal.Header closeButton>
-                        <Modal.Title>UpdateBook</Modal.Title>
+                        <Modal.Title>UpdateFile</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
