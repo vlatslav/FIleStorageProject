@@ -53,9 +53,7 @@ function File() {
                     'Content-Type': 'application/json'
                 }
             })
-
-                .then(res => res.json())
-                .then((result) => {
+                .then(() => {
                     refreshPage()
                 }, (error) => {
                     alert('Failed');

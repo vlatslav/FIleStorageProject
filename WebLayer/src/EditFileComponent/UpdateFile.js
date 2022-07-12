@@ -40,7 +40,9 @@ function UpdateFile(props) {
             .then((response) => {
                 console.log(response);
                 props.refreshPage();
-            })
+            }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     const changeValue = (text) => {
         setDropDownValue(text);

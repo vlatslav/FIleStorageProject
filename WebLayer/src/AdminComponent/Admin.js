@@ -104,10 +104,11 @@ const AdminPage = (props) => {
             },
             body: JSON.stringify(user.email)
         })
-            .then(res => res.json())
-            .then((result) => {
+            .then(() => {
                 refreshPage();
-            })
+            }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     console.log(users);
     if(!localStorage.getItem('roles')?.includes("Administrator")){

@@ -75,10 +75,10 @@ function Registration() {
             })
 
         })
-            .then(res => res.json())
-            .then((result) => {
-            }, (error) => {
-            })
+            .then(() => {
+            }).catch(() => {
+            alert("Some fields are incorrect or empty");
+        });
     }
 
 
