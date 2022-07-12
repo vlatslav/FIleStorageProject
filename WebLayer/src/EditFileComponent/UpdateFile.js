@@ -52,7 +52,7 @@ function UpdateFile(props) {
         setDropDownValue("SelectCategory");
     }
 
-    const updateBookClick = () => {
+    const updateFileClick = () => {
         props.handleCloseEdit()
         if (titleValue !== null && descValue !== null && dropDownValue !== "SelectCategory") {
             patchTextAndDesc();
@@ -82,7 +82,7 @@ function UpdateFile(props) {
                                    onChange={(e) =>
                                        setDescValue(e.target.value)}
                             />
-                            <h5>Select BookCategory</h5>
+                            <h5>Select FileCategory</h5>
 
                             <Dropdown>
                                 <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -138,8 +138,8 @@ function UpdateFile(props) {
                         }>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={updateBookClick}>
-                            UpdateBook
+                        <Button variant="primary" onClick={updateFileClick}>
+                            UpdateFile
                         </Button>
                     </Modal.Footer>
                 </Modal>
