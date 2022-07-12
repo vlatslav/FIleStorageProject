@@ -44,6 +44,7 @@ function File() {
     }
     const deleteFile = (fileId) => {
         const token = "Bearer " + JSON.parse(localStorage.getItem('user'));
+        if (window.confirm('Are you sure?')) {
             fetch(variables.API_URL + 'File/' + fileId, {
                 method: 'DELETE',
                 headers: {
@@ -59,6 +60,7 @@ function File() {
                 }, (error) => {
                     alert('Failed');
                 })
+        }
 
     }
     const downloadfile2 = (fileId) => {
