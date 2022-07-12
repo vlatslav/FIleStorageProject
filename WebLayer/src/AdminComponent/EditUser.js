@@ -28,7 +28,7 @@ function EditUser(props) {
             && firstName !== ''
             && lastName !== ''
             && nickName !== '') {
-            if(validEmail()) {
+            if(validEmail() && validUserName()) {
 
                 props.updateUser(email, firstName, lastName, nickName)
                 props.refreshPage()
@@ -53,7 +53,16 @@ function EditUser(props) {
         }
     }
 
-
+    const validUserName = () =>
+    {
+        if(props.users.find(user => user.nickName === nickName) === undefined)
+        {
+            return true
+        }
+        else {
+            alert("UserName is already taken")
+        }
+    }
 
     if(props.currentuser !== undefined) {
         return (
@@ -82,7 +91,7 @@ function EditUser(props) {
                                    onChange={(e) =>
                                        setLastName(e.target.value)}
                             />
-                            <h5>Enter username</h5>
+                            <h5>Enter Username</h5>
                             <input type="text" className="form-control"
                                    value={nickName}
                                    onChange={(e) =>

@@ -5,7 +5,6 @@ import {variables} from "../Variables/Variables";
 function Authorization() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    //const [authResponse,setAuthResponse] = useState([]);
     const [users,setUsers] = useState([]);
     const checkPassword = (nickname,password) =>
     {
@@ -40,8 +39,6 @@ function Authorization() {
         }).then(response => response.json())
             .then((result) => {
                 if(result.token){
-                    console.log(result.token);
-                    //setAuthResponse(result.token);
                     localStorage.setItem("user", JSON.stringify(result.token));
                 }
             }).catch((error) => {

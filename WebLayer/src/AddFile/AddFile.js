@@ -78,7 +78,6 @@ function AddFile(props) {
                 },
             })
                 .then((response) => {
-                    console.log(response);
                     props.refreshPage();
                 })
         }else{
@@ -89,7 +88,6 @@ function AddFile(props) {
         const idout = GetCategoryId(text);
         setcategoryId(idout);
     };
-    console.log(localStorage.getItem('UserId'));
 
     return (
         <>

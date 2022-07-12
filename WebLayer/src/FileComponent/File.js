@@ -35,17 +35,15 @@ function File() {
     const refreshPage = () => {
         setRefresh(true)
     }
-    const editBook = (fl) => {
+    const editFile = (fl) => {
         setCurrentFile(fl);
         if(fl !== undefined)
         {
             handleShowEdit();
         }
     }
-    const deleteBook = (fileId) => {
+    const deleteFile = (fileId) => {
         const token = "Bearer " + JSON.parse(localStorage.getItem('user'));
-        console.log(token);
-        if (window.confirm('Are you sure?')) {
             fetch(variables.API_URL + 'File/' + fileId, {
                 method: 'DELETE',
                 headers: {
@@ -61,7 +59,7 @@ function File() {
                 }, (error) => {
                     alert('Failed');
                 })
-        }
+
     }
     const downloadfile2 = (fileId) => {
         const file = files?.filter(x => x.fileId === fileId);
@@ -84,7 +82,6 @@ function File() {
             a.href = '';
         }).catch(err => console.error(err));
     }
-    console.log(category);
         return (
             <>
                 {localStorage.getItem('UserId') !== null &&
@@ -113,6 +110,7 @@ function File() {
                     </thead>
                     <tbody>
                     {files?.map(file =>
+
                         <tr key={file.fileId}>
                             <td>{files?.indexOf(file) + 1}</td>
                             <td>{category?.find(ctg => ctg.categoryId === file.categoryId).categoryName}</td>
@@ -124,11 +122,11 @@ function File() {
 
                             {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
                                 || localStorage.getItem('roles')?.includes("Administrator") &&
-                                    <button className="btn btn-outline-danger m-lg-1" type="button" onClick={() => deleteBook(file.fileId)}>Delete</button>
+                                    <button className="btn btn-outline-danger m-lg-1" type="button" onClick={() => deleteFile(file.fileId)}>Delete</button>
                             }
                             {file.userId === localStorage.getItem('UserId') && localStorage.getItem('UserId') !== null
                                 || localStorage.getItem('roles')?.includes("Administrator") &&
-                                    <button className="btn btn-outline-info m-lg-1" type="button" onClick={editBook.bind(this, file)}>Update</button>
+                                    <button className="btn btn-outline-info m-lg-1" type="button" onClick={editFile.bind(this, file)}>Update</button>
                             }
                             </td>
                         </tr>

@@ -30,7 +30,7 @@ function Header() {
                             </Link>
                         </li>
                     )}
-                    {localStorage.getItem('roles')?.includes("Administrator") ? (
+                    {localStorage.getItem('roles')?.includes("Administrator") &&
 
                         <li className="nav-item- m-1">
                             <Link style={{ textDecoration: 'none' }}  className="btn btn-light btn-outline-primary" to="/admin">
@@ -38,24 +38,21 @@ function Header() {
                             </Link>
                         </li>
 
-                    ) : (
-                        console.log('user')
-                    )}
-                    {!localStorage.hasOwnProperty('UserId') ?
+                    }
+                    {!localStorage.hasOwnProperty('UserId') &&
                         <li className="nav-item- m-1">
                             <Link style={{ textDecoration: 'none' }} className="btn btn-light btn-outline-primary" to="/signup">
                                 Sign up
                             </Link>
-                        </li> :
-                        console.log('user')}
+                        </li>
+                    }
 
-                    {localStorage.hasOwnProperty('UserId') ?
+                    {localStorage.hasOwnProperty('UserId') &&
                         <li className="nav-item- m-1">
                             <Link style={{ textDecoration: 'none' }} className="btn btn-light btn-outline-primary" to="/signin" onClick={signOut}>
                                 Sign out
                             </Link>
-                        </li> :
-                        console.log('')}
+                        </li>}
                     </ul>
             </nav>
                 <Routes>

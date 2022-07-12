@@ -126,7 +126,9 @@ const AdminPage = (props) => {
                         <th>
                             Email
                         </th>
-
+                        <th>
+                            NickName
+                        </th>
                         <th>
                             FirstName
                         </th>
@@ -146,6 +148,7 @@ const AdminPage = (props) => {
                         <tr key={user.userId}>
                             <td>{users?.indexOf(user) + 1}</td>
                             <td>{user.email}</td>
+                            <td>{user.userName}</td>
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.roles?.join(",")}</td>
