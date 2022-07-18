@@ -77,12 +77,12 @@ namespace PL.Controllers
             }
         }
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteUserById(string id)
+        public async Task<ActionResult> DeleteUserById(string id)
         {
             try
             {
                 await _userService.DeleteUserById(id);
-                return new JsonResult("Deleted Successfully");
+                return Ok();
             }
             catch (Exception e)
             {

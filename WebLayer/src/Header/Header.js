@@ -34,7 +34,7 @@ function Header() {
 
                         <li className="nav-item- m-1">
                             <Link style={{ textDecoration: 'none' }}  className="btn btn-light btn-outline-primary" to="/admin">
-                                Admin Menu
+                                Admin menu
                             </Link>
                         </li>
 
@@ -49,7 +49,7 @@ function Header() {
 
                     {localStorage.hasOwnProperty('UserId') &&
                         <li className="nav-item- m-1">
-                            <Link style={{ textDecoration: 'none' }} className="btn btn-light btn-outline-primary " to="/signin" onClick={signOut}>
+                            <Link style={{ textDecoration: 'none' }} className="btn btn-light btn-outline-danger" to="/signin" onClick={signOut}>
                                 Sign out
                             </Link>
                         </li>}

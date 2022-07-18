@@ -55,12 +55,12 @@ namespace PL.Controllers
             try
             {
                 await _categoryService.AddAsync(value);
+                return Ok();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return BadRequest(e.Message);
+                return BadRequest();
             }
-            return CreatedAtAction(nameof(Add), new { id = value.CategoryId }, value);
         }
 
         [HttpPut, Authorize(Roles = "Administrator")]
@@ -69,18 +69,25 @@ namespace PL.Controllers
             try
             {
                 await _categoryService.UpdateAsync(value);
+                return Ok();
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(Update), new { id = value.CategoryId }, value);
         }
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Delete(int id)
         {
-            await _categoryService.DeleteAsync(id);
-            return CreatedAtAction(nameof(Delete), new { Id = id });
+            try
+            {
+                await _categoryService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
 

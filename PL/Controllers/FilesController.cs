@@ -63,20 +63,27 @@ namespace PL.Controllers
             try
             {
                 await _fileService.UpdateAsync(value);
+                return Ok();
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-
-            return CreatedAtAction(nameof(Update), new { id = value.FileId }, value);
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult> Delete(int id)
         {
-            await _fileService.DeleteAsync(id);
-            return CreatedAtAction(nameof(Delete), new {Id = id});
+            try
+            {
+                await _fileService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+            
         }
 
         [HttpPost, Authorize(Roles = "User, Administrator")]

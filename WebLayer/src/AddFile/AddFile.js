@@ -33,7 +33,6 @@ function AddFile(props) {
             const formData = new FormData();
             formData.append('File', selectedFile);
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('user'));
-            console.log(token);
             fetch(
                 variables.API_URL + "File/uploadfile/" + categoryId,
                 {
@@ -148,7 +147,7 @@ function AddFile(props) {
                         <Button variant="primary" onClick={handleSubmission}>
                             UploadFile
                         </Button>
-                        <h6>Enter FileName</h6>
+                        <h6>Enter File name</h6>
                         <input type="text" className="form-control"
                                onChange={(e) =>
                                    setTitleValue(e.target.value)}

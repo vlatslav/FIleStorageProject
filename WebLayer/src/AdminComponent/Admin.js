@@ -152,7 +152,7 @@ const AdminPage = (props) => {
                             <td>{user.userName}</td>
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
-                            <td>{user.roles?.join(",")}</td>
+                            <td>{user.roles?.join(", ")}</td>
                             <td>
                                 {!user.roles?.includes("Administrator") &&
                                 <button type="button"

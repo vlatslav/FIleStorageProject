@@ -73,8 +73,7 @@ function UpdateFile(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <h5>Selected File Id= {props.currentFile.fileId}</h5>
-                            <h5>Enter FileTitle</h5>
+                            <h5>Enter File Title</h5>
                             <input type="text" className="form-control"
                                    onChange={(e) =>
                                        setTitleValue(e.target.value)}
@@ -87,7 +86,7 @@ function UpdateFile(props) {
                             <h5>Select FileCategory</h5>
 
                             <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <Dropdown.Toggle variant="primary" id="dropdown-basic">
                                     {dropDownValue}
                                 </Dropdown.Toggle>
 
