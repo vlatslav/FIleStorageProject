@@ -8,6 +8,8 @@ using BAL.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using BAL.Validation;
+using DAL.Entity;
+using DAL.Extentions;
 
 namespace BAL.Repositories
 {
@@ -49,6 +51,7 @@ namespace BAL.Repositories
 
         public async Task<IEnumerable<Files>> GetAllWithDetails()
         {
+
             return await _context.Files.Include(x => x.Category).Include(x => x.User).ToArrayAsync();
         }
 

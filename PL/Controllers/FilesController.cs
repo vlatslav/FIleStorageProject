@@ -14,11 +14,13 @@ using BAL.Entity;
 using BAL.Entity.Auth;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Models;
+using DAL.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
 
 namespace PL.Controllers
 {
@@ -29,11 +31,11 @@ namespace PL.Controllers
     {
         public static IWebHostEnvironment _hostingEnvironment;
         private readonly IFileService _fileService;
-        private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
         private readonly FileDBContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public FileController(IFileService fileService, IWebHostEnvironment env, FileDBContext contxt, UserManager<User> user, IMapper mapper, ICategoryService categoryService
+        public FileController(IFileService fileService, IWebHostEnvironment env, FileDBContext contxt, UserManager<User> user, IMapper mapper, IUserService userService
             )
         {
             _fileService = fileService;
@@ -41,7 +43,7 @@ namespace PL.Controllers
             _context = contxt;
             _userManager = user;
             _mapper = mapper;
-            _categoryService = categoryService;
+            _userService = userService;
         }
 
         [HttpGet("{Id}")]
@@ -104,7 +106,6 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
-
         [HttpPatch("{id}"),  Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult> PatchFile([FromRoute]int id, [FromBody] JsonPatchDocument<Files> filemodel)
         {
@@ -119,15 +120,37 @@ namespace PL.Controllers
             }
         }
         [HttpGet]
-        [Route("files")]
-        public async Task<ActionResult<IEnumerable<FileModel>>> GetAllFiles()
+        [Route("files/paging")]
+        public async Task<ActionResult<IEnumerable<FileModel>>> GetAllFiles([FromQuery] FileParameters fileParameters)
         {
+
+
+            var result = await _fileService.GetAllFiles(fileParameters);
+            if (result is null)
+                return NotFound();
+            var metadata = new
+            {
+                result.TotalCount,
+                result.PageSize,
+                result.CurrentPage,
+                result.HasNext,
+                result.HasPrevious
+            };
+            
+            Response.Headers.Add("Pagination", JsonConvert.SerializeObject(metadata));
+            return result.ToArray();
+        }
+        [HttpGet]
+        [Route("files")]
+        public async Task<ActionResult<IEnumerable<FileModel>>> GetFiles()
+        {
+
+
             var result = await _fileService.GetAllAsync();
             if (result is null)
                 return NotFound();
             return result.ToArray();
         }
-
         [HttpPost]
         [Route("downloadfile/{id}")]
         public async Task<IActionResult> Download(int id) //

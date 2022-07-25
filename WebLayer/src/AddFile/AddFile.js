@@ -44,8 +44,10 @@ function AddFile(props) {
                 }
             )
                 .then((result) => {
+                    if(!result.ok){
+                        throw new Error();
+                    }
                     console.log('Success:', result);
-                    props.refreshPage();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -77,8 +79,13 @@ function AddFile(props) {
                 },
             })
                 .then((response) => {
+                    if(!response.ok){
+                        throw new Error();
+                    }
                     props.refreshPage();
-                })
+                }).catch((error) => {
+                console.error('Error:', error);
+            });
         }else{
             alert("You forgot to fill some fields.");
         }

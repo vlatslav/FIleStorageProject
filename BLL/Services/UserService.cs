@@ -111,5 +111,14 @@ namespace BusinessLogicLayer.Services
             model.ApplyTo(baseUser);
             await _userManager.UpdateAsync(baseUser);
         }
+
+        public async Task ChangePassword(string username, string pass)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user,token,pass);
+            if (!result.Succeeded)
+                throw new ArgumentException("Password is incorrect");
+        }
     }
 }

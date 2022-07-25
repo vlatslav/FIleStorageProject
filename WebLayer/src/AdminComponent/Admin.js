@@ -66,9 +66,13 @@ const AdminPage = (props) => {
             },
         })
             .then((response) => {
-                console.log(response);
+                if(!response.ok){
+                    throw new Error();
+                }
                 refreshPage();
-            })
+            }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     const editUser = (user) => {
         setCurrentUser(user)
@@ -87,12 +91,17 @@ const AdminPage = (props) => {
                 }
             })
 
-                .then(res => res.json())
+                .then(res => {
+                    if(!res.ok){
+                        throw new Error();
+                    }
+                    return res.json();
+                })
                 .then((result) => {
                     refreshPage();
-                }, (error) => {
-                    alert('Failed');
-                })
+                }).catch((error) => {
+                alert('Error:', error);
+            })
         }
     }
     const makeAnAdmin = (user) => {
@@ -104,7 +113,10 @@ const AdminPage = (props) => {
             },
             body: JSON.stringify(user.email)
         })
-            .then(() => {
+            .then((res) => {
+                if(!res.ok){
+                    throw new Error();
+                }
                 refreshPage();
             }).catch((error) => {
             console.error('Error:', error);

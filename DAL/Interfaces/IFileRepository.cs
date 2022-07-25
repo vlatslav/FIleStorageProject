@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using BAL.Entity;
+using DAL.Entity;
+using DAL.Extentions;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace BAL.Interfaces

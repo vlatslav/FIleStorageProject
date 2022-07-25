@@ -1,0 +1,29 @@
+.ulHeader {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1781eb;
+}
+
+.liHeader {
+    float: left;
+    border-right: 1px solid floralwhite;
+
+}
+.liHeader:last-child {
+    border-right: none;
+}
+.liHeader a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+}
+.image{
+    margin: 0;
+    padding: 0;
+}
+.liHeader a:hover {
+    background-color: #61dafb;
+}

@@ -6,16 +6,17 @@ function Authorization() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [users,setUsers] = useState([]);
+    const [isPassCorrect, setIsPassCorrent] = useState(false);
     const checkPassword = (nickname,password) =>
     {
         signInUser(nickname,password);
         const user = users?.find(x => x.userName === nickname);
-        if(user !== null){
-            localStorage.setItem('UserId', user.UserId);
-            localStorage.setItem('roles', user.roles);
+        if(user !== null && isPassCorrect){
+            localStorage.setItem("UserId", user.userId);
+            localStorage.setItem("roles", user.roles);
+            console.log("Was authorized");
+            window.location.href = "http://localhost:3000/files";
         }
-        console.log("Was authorized");
-        window.location.href = "http://localhost:3000/files";
     }
     useEffect(() => {
         fetch(variables.API_URL + 'Authentication')
@@ -36,14 +37,18 @@ function Authorization() {
                 Password:password
             })
 
-        }).then(response => response.json())
+        }).then(response => {
+            if(!response.ok) throw new Error(response.status);
+            else return response.json();
+        })
             .then((result) => {
                 if(result.token){
                     localStorage.setItem("user", JSON.stringify(result.token));
+                    setIsPassCorrent(true);
                 }
             }).catch((error) => {
-            console.log(error.response);
-            alert("Incorrect password or username");
+                setIsPassCorrent(false);
+                alert("Incorrect password");
         })
     }
     const authorizeUserClicked = () => {

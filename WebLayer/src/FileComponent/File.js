@@ -6,6 +6,7 @@ import './File.css';
 
 function File() {
     const [files,setFiles] = useState();
+    const [users,setUsers] = useState();
     const [currentFile,setCurrentFile] = useState();
     const [showEdit, setShowEdit] = useState(false);
     const [show,setShow] = useState(false);
@@ -20,7 +21,16 @@ function File() {
         fetch(variables.API_URL + 'File/files')
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 setFiles(data);
+                setRefresh(false);
+            })
+    }, [refresh])
+    useEffect(() => {
+        fetch(variables.API_URL + 'Authentication')
+            .then(response => response.json())
+            .then(data => {
+                setUsers(data);
                 setRefresh(false);
             })
     }, [refresh])
@@ -103,7 +113,7 @@ function File() {
                             Title
                         </th>
                         <th>
-                            Description
+                            Nickname
                         </th>
                     </tr>
 
@@ -115,7 +125,7 @@ function File() {
                             <td>{files?.indexOf(file) + 1}</td>
                             <td>{category?.find(ctg => ctg.categoryId === file.categoryId).categoryName}</td>
                             <td><h6>{file.title}</h6></td>
-                            <td>{file.description}</td>
+                            <td>{users?.find(u => u.userId === file.userId).userName}</td>
                             <td><a ref={linkRef}/></td>
                             <td>
                                 <button className="btn btn-outline-success m-lg-1" type="button" onClick={() => downloadfile2(file.fileId)}>Download</button>

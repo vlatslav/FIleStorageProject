@@ -16,6 +16,7 @@ namespace BusinessLogicLayer.Interfaces
         public Task<UserModel> GetUserById(string id);
 
         public Task<IEnumerable<FileModel>> GetAllFilesFromUser(string id);
+        public Task ChangePassword(string username, string pass);
 
         public Task UpdateUser(UserModel user);
         public Task DeleteUserById(string id);

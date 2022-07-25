@@ -12,6 +12,8 @@ using BAL.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Models;
 using BusinessLogicLayer.Validation;
+using DAL.Entity;
+using DAL.Extentions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -123,6 +125,12 @@ namespace BusinessLogicLayer.Services
                 throw new FileExcpetion("File can't be null");
             if (!File.Exists(model.FilePath))
                 throw new FileExcpetion("File path doesn't exist");
+        }
+
+        public async Task<PageList<FileModel>> GetAllFiles(FileParameters fileParameters)
+        {
+            var files = (await GetAllAsync()).ToList();
+            return PageList<FileModel>.ToPagedList(files, fileParameters.PageNumber, fileParameters.PageSize);
         }
     }
 

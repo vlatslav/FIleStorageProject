@@ -38,10 +38,13 @@ function UpdateFile(props) {
             },
         })
             .then((response) => {
+                if(!response.ok){
+                    throw new Error();
+                }
                 console.log(response);
                 props.refreshPage();
             }).catch((error) => {
-            console.error('Error:', error);
+            alert('Error:', error);
         });
     }
     const changeValue = (text) => {

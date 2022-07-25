@@ -1,0 +1,10 @@
+.wrapper {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.leftmenu {
+    margin: 0;
+    padding: 0;
+}

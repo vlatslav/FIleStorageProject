@@ -130,7 +130,22 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost, Authorize(Roles = "User, Administrator")]
+        [Route("changepass")]
+        public async Task<ActionResult<string>> ChangePass([FromQuery] string newPass)
+        {
 
+            try
+            {
+                string name = HttpContext.User.Identity.Name;
+                await _userService.ChangePassword(name, newPass);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpPost("addrole/{role}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> AddRoleToUser([FromRoute]string role, [FromBody]string userEmail)

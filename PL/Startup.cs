@@ -62,7 +62,7 @@ namespace PL
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddCors();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,10 +78,14 @@ namespace PL
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors(
-                options => options.SetIsOriginAllowed(x => _ = true)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
+                options =>
+                {
+                    options.SetIsOriginAllowed(x => _ = true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithExposedHeaders("*");
+                }
             );
             app.UseSwagger();
             app.UseSwaggerUI(c => {
