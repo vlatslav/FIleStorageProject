@@ -10,7 +10,7 @@ const Files = () => {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(2);
+    const [postsPerPage] = useState(5);
     const [refresh, setRefresh] = useState(false);
     const [category,setCategory] = useState();
     const [users,setUsers] = useState();

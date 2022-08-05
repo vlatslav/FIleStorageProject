@@ -24,14 +24,16 @@ namespace BusinessLogicLayer.Services
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
         public UserService(IUnitOfWork unitOfWork, IMapper mapper, RoleManager<IdentityRole> role,
-            SignInManager<User> signInManager, UserManager<User> userManager)
+            SignInManager<User> signInManager, UserManager<User> userManager, IFileService fileService)
         {
             _role = role;
             _signInManager = signInManager;
             _userManager = userManager;
             _uow = unitOfWork;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<bool> AddRoleToUser(string userEmail, string role)
@@ -62,12 +64,24 @@ namespace BusinessLogicLayer.Services
         public async Task DeleteUserById(string id)
         {
             var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == id);
+            var files = await GetAllFilesFromUser(id);
             if (user is null)
             {
                 throw new AccessException();
             }
 
-            await _userManager.DeleteAsync(user);
+            if (files.ToList().Count == 0)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            else
+            {
+                foreach (var file in files)
+                {
+                    await _fileService.DeleteAsync((int) file.FileId);
+                }
+                await _userManager.DeleteAsync(user);
+            }
         }
         public async Task<UserModel> GetUserById(string id)
         {

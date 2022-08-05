@@ -130,6 +130,7 @@ function Posts({ posts, loading, refreshPage, category,users }) {
                 show={show}
                 refreshPage={refreshPage}
                 files={posts}
+                categories={category}
             />
             <UpdateFile
                 refreshPage={refreshPage}
