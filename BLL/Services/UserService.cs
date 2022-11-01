@@ -20,20 +20,13 @@ namespace BusinessLogicLayer.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _uow;
-        private readonly RoleManager<IdentityRole> _role;
-        private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        private readonly IFileService _fileService;
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, RoleManager<IdentityRole> role,
-            SignInManager<User> signInManager, UserManager<User> userManager, IFileService fileService)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager)
         {
-            _role = role;
-            _signInManager = signInManager;
             _userManager = userManager;
             _uow = unitOfWork;
             _mapper = mapper;
-            _fileService = fileService;
         }
 
         public async Task<bool> AddRoleToUser(string userEmail, string role)
@@ -78,7 +71,7 @@ namespace BusinessLogicLayer.Services
             {
                 foreach (var file in files)
                 {
-                    await _fileService.DeleteAsync((int) file.FileId);
+                    await _uow.FileRepository.DeleteByIdAsync(((int) file.FileId));
                 }
                 await _userManager.DeleteAsync(user);
             }

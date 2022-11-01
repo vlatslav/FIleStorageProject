@@ -26,13 +26,11 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public FileService(IUnitOfWork unitOf,IMapper mapper, UserManager<User> userManager, IHostingEnvironment hosting )
+        public FileService(IUnitOfWork unitOf,IMapper mapper, IHostingEnvironment hosting )
         {
             unitOfWork = unitOf;
             _mapper = mapper;
-            _userManager = userManager;
             _hostingEnvironment = hosting;
         }
 
@@ -97,7 +95,12 @@ namespace BusinessLogicLayer.Services
                     UserId = user.Id,
                     CategoryId = categoryId
                 };
-                await AddAsync(f);
+                if (await CheckContentTypeWithCategory(categoryId, file.ContentType))
+                    await AddAsync(f);
+                else
+                {
+                    throw new FileExcpetion("Category doesn't match to file's content type");
+                }
             }
             else
             {
@@ -131,6 +134,34 @@ namespace BusinessLogicLayer.Services
         {
             var files = (await GetAllAsync()).ToList();
             return PageList<FileModel>.ToPagedList(files, fileParameters.PageNumber, fileParameters.PageSize);
+        }
+        private async Task<bool> CheckContentTypeWithCategory(int categoryId, string ContentType)
+        {
+            var category = await unitOfWork.CategoryRepository.GetById(categoryId);
+            switch (category.CategoryName)
+            {
+                case "Games":
+                    if (ContentType == "exe")
+                        return true;
+                    return false;
+                case "Images":
+                    if (ContentType == "jpg" || ContentType == "jpeg" || ContentType == "png")
+                        return true;
+                    return false;
+                case "Videos":
+                    if (ContentType == "mp4")
+                        return true;
+                    return false;
+                case "Books":
+                    if (ContentType == "pdf" || ContentType == "doc")
+                        return true;
+                    return false;
+                case "Scripts":
+                    if (ContentType == "dll" || ContentType == "rar")
+                        return true;
+                    return false;
+            }
+            return false;
         }
     }
 

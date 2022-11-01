@@ -16,6 +16,6 @@ namespace BusinessLogicLayer.Models
         public DateTime Date { get; set; }
         public string ContentType { get; set; }
         public string UserId { get; set; }
-        public int CategoryId { get; set; } //mod
+        public int CategoryId { get; set; } 
     }
 }

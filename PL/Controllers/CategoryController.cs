@@ -84,7 +84,7 @@ namespace PL.Controllers
                 await _categoryService.DeleteAsync(id);
                 return Ok();
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return BadRequest();
             }

@@ -8,6 +8,5 @@ namespace BusinessLogicLayer.Models
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public ICollection<long> FilesId { get; set; }
     }
 }

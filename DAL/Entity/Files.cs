@@ -19,8 +19,8 @@ namespace BAL.Entity
         [Column(TypeName = "varchar(max)")]
         public string ContentType { get; set; }
         public string FileName { get; set; }
-        public string Description { get; set; } //addded
-        public string Title { get; set; }//added
+        public string Description { get; set; } 
+        public string Title { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
         public int CategoryId { get; set; }

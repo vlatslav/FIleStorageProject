@@ -48,6 +48,7 @@ function Registration() {
             && confirmPassword !== '') {
 
             if (confirmPassword()) {
+                console.log(1);
                 createAndSendToDbUser(email, firstName, lastName, nickName, password);
                 window.location.href = "http://localhost:3000/signin";
 

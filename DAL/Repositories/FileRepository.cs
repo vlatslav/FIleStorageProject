@@ -52,7 +52,7 @@ namespace BAL.Repositories
         public async Task<IEnumerable<Files>> GetAllWithDetails()
         {
 
-            return await _context.Files.Include(x => x.Category).Include(x => x.User).ToArrayAsync();
+            return await _context.Files.Include(x => x.Category).ToArrayAsync();
         }
 
         public async Task<Files> GetById(int id)
